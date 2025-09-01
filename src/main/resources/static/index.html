@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ja" class="h-full">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>AI Chat</title>
+
+    <!-- Tailwind（開発用CDN） -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- ★ あなたの CSS（/src/main/resources/static/app.css） -->
+    <link rel="stylesheet" href="/app.css" />
+  </head>
+
+  <body class="h-full bg-zinc-950 text-zinc-100">
+    <!-- ★ 背景（背面固定 & クリック透過） -->
+    <div class="stars pointer-events-none"></div>
+
+    <!-- ★ 既存のUIを前面へ -->
+    <div id="app" class="relative z-10 h-full">
+      <div class="h-full grid grid-cols-[260px_minmax(0,1fr)]">
+        <!-- 左サイド：ナビ（ダミー） -->
+        <aside class="border-r border-zinc-800/60 p-4 hidden md:block">
+          <div class="flex items-center gap-2 mb-6">
+            <div
+              class="w-7 h-7 rounded bg-zinc-800 grid place-items-center text-xs"
+            >
+              X
+            </div>
+            <div class="text-zinc-300 text-sm">メニュー</div>
+          </div>
+          <nav class="space-y-1 text-zinc-300">
+            <a class="block px-3 py-2 rounded hover:bg-zinc-900/70">ホーム</a>
+            <a class="block px-3 py-2 rounded hover:bg-zinc-900/70"
+              >メッセージ</a
+            >
+            <a
+              class="block px-3 py-2 rounded hover:bg-zinc-900/70 font-medium text-zinc-100 bg-zinc-900/70"
+              >Lion Ai</a
+            >
+            <a class="block px-3 py-2 rounded hover:bg-zinc-900/70"
+              >ブックマーク</a
+            >
+            <a class="block px-3 py-2 rounded hover:bg-zinc-900/70"
+              >プロフィール</a
+            >
+          </nav>
+        </aside>
+
+        <!-- 右：チャット本体 -->
+        <section class="grid grid-rows-[auto_1fr_auto]">
+          <!-- ヘッダー -->
+          <header
+            class="px-4 md:px-6 py-3 border-b border-zinc-800/60 flex items-center gap-3"
+          >
+            <div
+              id="statusDot"
+              class="w-2.5 h-2.5 rounded-full bg-zinc-600"
+            ></div>
+            <h1 class="font-semibold">AI Chat</h1>
+            <span id="statusText" class="ml-auto text-xs text-zinc-400"
+              >connecting...</span
+            >
+          </header>
+
+          <!-- メッセージタイムライン -->
+          <main id="messages" class="overflow-y-auto p-3 md:p-6 space-y-3">
+            <!-- JSで挿入（バブル） -->
+          </main>
+
+          <!-- 入力欄（フッター） -->
+          <footer class="border-t border-zinc-800/60 p-3 md:p-4">
+            <!-- 上段：名前 -->
+            <div class="mb-2 flex items-center gap-2">
+              <label class="text-xs text-zinc-400">あなたの名前</label>
+              <input
+                id="name"
+                class="w-48 max-w-[60%] bg-zinc-900/60 border border-zinc-800 rounded-lg px-3 py-1.5 text-sm outline-none focus:border-zinc-600"
+                placeholder="りおん"
+              />
+            </div>
+            <!-- 下段：入力 + 送信 -->
+            <form id="composer" class="flex items-end gap-2">
+              <textarea
+                id="msg"
+                rows="1"
+                placeholder="どんなことでもお尋ねください"
+                class="flex-1 resize-none bg-zinc-900/60 border border-zinc-800 rounded-xl px-3 py-2 text-sm outline-none focus:border-zinc-600"
+              ></textarea>
+              <button
+                id="send"
+                type="submit"
+                class="rounded-xl bg-zinc-200 text-zinc-950 px-4 py-2 text-sm font-medium hover:bg-white transition"
+              >
+                送信
+              </button>
+            </form>
+            <p class="mt-1 text-[11px] text-zinc-500">
+              Enterで送信 / Shift+Enterで改行
+            </p>
+          </footer>
+        </section>
+      </div>
+    </div>
+
+    <!-- SockJS / STOMP / アプリJS（読み込み順に注意） -->
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+    <script src="/app.js"></script>
+  </body>
+</html>

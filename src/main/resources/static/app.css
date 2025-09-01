@@ -1,0 +1,86 @@
+/* 画面全面に固定するギャラクシー背景 */
+.stars {
+  position: fixed;
+  inset: 0;
+  z-index: 0; /* 背面 */
+  overflow: hidden;
+  /* ネビュラ感のある多層グラデーション */
+  background: radial-gradient(
+      1000px 600px at 20% 30%,
+      rgba(88, 101, 242, 0.25) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      800px 500px at 80% 20%,
+      rgba(168, 85, 247, 0.22) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      900px 700px at 60% 80%,
+      rgba(6, 182, 212, 0.18) 0%,
+      transparent 65%
+    ),
+    linear-gradient(180deg, #0b1020 0%, #090a17 60%, #060812 100%);
+  animation: drift 40s ease-in-out infinite alternate;
+  filter: saturate(120%);
+}
+
+/* 小さな星の瞬きレイヤー（CSSのみ） */
+.stars::before,
+.stars::after {
+  content: "";
+  position: absolute;
+  inset: -200vh -200vw; /* 外側まで広げて流し込む */
+  background-image: radial-gradient(
+      1px 1px at 10% 20%,
+      rgba(255, 255, 255, 0.9) 50%,
+      transparent 51%
+    ),
+    radial-gradient(
+      1px 1px at 30% 70%,
+      rgba(255, 255, 255, 0.7) 50%,
+      transparent 51%
+    ),
+    radial-gradient(
+      1px 1px at 55% 15%,
+      rgba(255, 255, 255, 0.8) 50%,
+      transparent 51%
+    ),
+    radial-gradient(
+      1.2px 1.2px at 75% 40%,
+      rgba(255, 255, 255, 0.85) 50%,
+      transparent 51%
+    ),
+    radial-gradient(
+      1px 1px at 90% 80%,
+      rgba(255, 255, 255, 0.6) 50%,
+      transparent 51%
+    );
+  background-repeat: repeat;
+  background-size: 400px 400px;
+  opacity: 0.6;
+  animation: twinkle 3.5s ease-in-out infinite;
+}
+.stars::after {
+  background-size: 600px 600px; /* 2層目の星 */
+  opacity: 0.35;
+  animation-duration: 5.2s;
+}
+
+@keyframes drift {
+  0% {
+    transform: translate3d(-2%, -2%, 0) scale(1.02);
+  }
+  100% {
+    transform: translate3d(2%, 2%, 0) scale(1.04);
+  }
+}
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
