@@ -88,15 +88,12 @@ WebSocket (STOMP) によるリアルタイム双方向通信に対応し、Docke
 - Maven 3.9 以上  
 - OpenAI API キー（取得先: https://platform.openai.com/）
 
-### 2. `.env` の作成
-
-```bash
+2. .env を作成
 OPENAI_API_KEY=sk-xxxxxxxxxxxxxxxx
 OPENAI_MODEL=gpt-4o
 SERVER_PORT=8080
+
 3. application.yml 設定例
-yaml
-コードをコピーする
 server:
   port: ${SERVER_PORT:8080}
 
@@ -105,22 +102,20 @@ app:
     apiKey: ${OPENAI_API_KEY}
     model: ${OPENAI_MODEL:gpt-4o}
     baseUrl: https://api.openai.com/v1
+
 4. 実行（ローカル）
-bash
-コードをコピーする
 mvn clean package -DskipTests
 java -jar target/rion-ai-chat-0.0.1-SNAPSHOT.jar
+
 5. Docker 実行
-bash
-コードをコピーする
 docker build -t rion-ai-chat .
 docker run -p 8080:8080 --env-file .env rion-ai-chat
+
 環境変数一覧
 変数名	説明	デフォルト値	備考
 OPENAI_API_KEY	OpenAI API キー	なし	.env で管理
 OPENAI_MODEL	使用モデル名	gpt-4o	任意に変更可能
-SERVER_PORT	サーバーポート番号	8080	Render 環境では自動割り当てあり
-
+SERVER_PORT	サーバポート番号	8080	Render では自動割当あり
 コマンド一覧
 コマンド	説明
 mvn clean package -DskipTests	ビルド（テスト除外）
@@ -128,28 +123,29 @@ java -jar target/rion-ai-chat-0.0.1-SNAPSHOT.jar	アプリ起動
 docker build -t rion-ai-chat .	Docker イメージビルド
 docker run -p 8080:8080 --env-file .env rion-ai-chat	コンテナ起動
 mvn test	JUnit テスト実行
-
 トラブルシューティング
+
 .env: no such file or directory
-.env ファイルが存在しません。上記の「環境変数一覧」を参考に作成してください。
+.env がありません。上の「環境変数一覧」を参考に作成してください。
 
 401 Unauthorized
-OpenAI API キーが無効または未設定です。.env の値を確認してください。
+OpenAI API キーが無効または未設定です。.env を確認してください。
 
 CORS Policy Error
-CorsRegistry の allowedOrigins("*") を設定してください（開発環境では *、本番は限定ドメイン推奨）。
+CorsRegistry の allowedOrigins を適切に設定してください（開発中は *、本番は限定ドメイン推奨）。
 
 TimeoutException
-OpenAI のレスポンスが遅延しています。WebClient の timeout を延長、またはプロンプト・モデルを調整してください。
+OpenAI 応答が遅延しています。WebClient の timeout を延長、またはプロンプト/モデルを調整してください。
 
 Ports are not available: address already in use
-他のプロセスがポートを使用中です。使用ポートを変更するか、該当プロセスを停止してください。
+他プロセスがポートを使用中です。ポート変更または該当プロセスの停止を行ってください。
 
 作者情報
 項目	内容
 名前	仲村莉穏（Rion）
-GitHub	Umintyu-Okinawa
-技術分野	Java / Spring Boot / WebSocket / AI Integration / Docker
+GitHub	https://github.com/Umintyu-Okinawa
 
+技術分野	Java / Spring Boot / WebSocket / AI Integration / Docker
 公開URL
+
 https://rion-ai-chat.onrender.com
