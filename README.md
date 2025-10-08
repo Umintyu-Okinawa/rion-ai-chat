@@ -48,11 +48,10 @@ rion-ai-chat/
 │ │ ├─ application.yml # APIキーなど環境変数を参照
 │ │ └─ templates/ # Thymeleaf (UIを使用する場合)
 │ └─ test/ # JUnitテスト
-├─ .env.example
-├─ Dockerfile
-├─ pom.xml
-└─ README.md
-
+├─ .env.example # 環境変数サンプル
+├─ Dockerfile # Docker構成
+├─ pom.xml # 依存関係・ビルド設定
+└─ README.md # 本ドキュメント
 ---
 
 ## 環境構築手順
