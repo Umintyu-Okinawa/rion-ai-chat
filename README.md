@@ -5,7 +5,7 @@
 OpenAI GPT API と Spring Boot を組み合わせて構築したチャットアプリケーションです。
 **WebSocket (STOMP)** によるリアルタイム双方向通信に対応し、**Docker / Render** でのデプロイも可能です。
 
----
+
 
 ## 使用技術一覧
 
@@ -18,19 +18,15 @@ OpenAI GPT API と Spring Boot を組み合わせて構築したチャットア�
   <img src="https://img.shields.io/badge/-Docker-1488C6.svg?logo=docker&style=for-the-badge" alt="Docker">
   <img src="https://img.shields.io/badge/-Render-46E3B7.svg?logo=render&style=for-the-badge" alt="Render">
 </p>
----
+
 
 ## 目次
 
 1. [プロジェクトについて](#プロジェクトについて)
 2. [環境](#環境)
 3. [主要ディレクトリ](#主要ディレクトリ)
-4. [開発環境構築](#開発環境構築)
-5. [環境変数一覧](#環境変数一覧)
-6. [コマンド一覧](#コマンド一覧)
-7. [トラブルシューティング](#トラブルシューティング)
-8. [作者情報](#作者情報)
-9. [公開URL](#公開url)
+4. [作者情報](#作者情報)
+5. [公開URL](#公開url)
 
 ---
 
