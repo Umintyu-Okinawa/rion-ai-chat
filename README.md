@@ -53,9 +53,6 @@ rion-ai-chat/
 ├─ pom.xml
 └─ README.md
 
-yaml
-コードをコピーする
-
 ---
 
 ## 環境構築手順
