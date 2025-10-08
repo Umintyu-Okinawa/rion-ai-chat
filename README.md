@@ -6,7 +6,7 @@ WebSocket（STOMP）を使用して双方向通信を実現し、会話データ
 
 ---
 
-## 🎯 プロジェクト概要
+## プロジェクト概要
 
 | 項目 | 内容 |
 |:--|:--|
@@ -19,7 +19,7 @@ WebSocket（STOMP）を使用して双方向通信を実現し、会話データ
 
 ---
 
-## 🧱 技術スタック
+## 技術スタック
 
 | カテゴリ | 使用技術 |
 |:--|:--|
@@ -58,9 +58,9 @@ yaml
 
 ---
 
-## ⚙️ 環境構築手順
+## 環境構築手順
 
-### 1️⃣ 前提条件
+### 1 前提条件
 
 - **Java 21**
 - **Maven 3.9+**
@@ -69,13 +69,13 @@ yaml
 
 ---
 
-### 2️⃣ 環境変数の設定（`.env`）
+### 2 環境変数の設定（`.env`）
 
 ```bash
 OPENAI_API_KEY=sk-xxxxxxxxxxxxxxxx
 OPENAI_MODEL=gpt-4o
 SERVER_PORT=8080
-3️⃣ application.yml（設定例）
+3 application.yml（設定例）
 yaml
 コードをコピーする
 server:
@@ -86,7 +86,7 @@ app:
     apiKey: ${OPENAI_API_KEY}
     model: ${OPENAI_MODEL:gpt-4o}
     baseUrl: https://api.openai.com/v1
-4️⃣ 実行方法
+4 実行方法
 🔹 ローカル実行
 bash
 コードをコピーする
@@ -95,7 +95,7 @@ mvn clean package -DskipTests
 
 # 起動
 java -jar target/rion-ai-chat-0.0.1-SNAPSHOT.jar
-🔹 Docker 実行
+・ Docker 実行
 bash
 コードをコピーする
 # ビルド
@@ -103,7 +103,7 @@ docker build -t rion-ai-chat .
 
 # 実行
 docker run -p 8080:8080 --env-file .env rion-ai-chat
-💬 WebSocket 通信例
+・ WebSocket 通信例
 接続エンドポイント
 項目	値
 WebSocketエンドポイント	/ws-chat
@@ -126,7 +126,7 @@ stomp.connect({}, () => {
   // メッセージ送信
   stomp.send('/app/chat', {}, JSON.stringify({ content: 'こんにちは！' }));
 });
-🧠 実装のポイント
+ ・実装のポイント
 項目	説明
 WebSocket通信	STOMPを使用してサーバー→クライアント間でリアルタイム更新
 OpenAI連携	RestTemplate / WebClient 経由でリクエスト送信
@@ -136,7 +136,7 @@ OpenAI連携	RestTemplate / WebClient 経由でリクエスト送信
 ログ管理	Logback による送受信ログ・リクエスト監視
 拡張性	会話履歴をDB化、認証導入、RAG検索統合も容易
 
-🧪 テスト
+・テスト
 bash
 コードをコピーする
 mvn test
@@ -144,7 +144,7 @@ OpenAI 呼び出しを Mock 化し、応答フォーマットを検証
 
 WebSocket 接続の統合テスト（@SpringBootTest(webEnvironment = RANDOM_PORT)）
 
-🚀 デプロイ手順（Render例）
+・デプロイ手順（Render例）
 GitHubリポジトリをRenderに接続
 
 “New Web Service” → Environment: Docker
@@ -158,14 +158,14 @@ OPENAI_MODEL=gpt-4o
 SERVER_PORT=10000
 自動デプロイ後、https://rion-ai-chat.onrender.com にアクセス
 
-⚠️ よくあるエラーと解決法
+・よくあるエラーと解決法
 エラー内容	原因と対処
 401 Unauthorized	APIキーが無効または未設定。.envを確認。
 CORS Policy Error	CorsRegistryの設定でallowedOrigins("*")を許可。
 WebSocket接続失敗	/ws-chat エンドポイントまたはポートの不一致。
 TimeoutException	OpenAIレスポンス遅延。WebClient の timeout 設定を延長。
 
-📈 今後の拡張予定
+・今後の拡張予定
 Chat履歴をDBに保存（User別セッション管理）
 
 Spring Securityによるユーザー認証
@@ -176,14 +176,11 @@ Function Calling / Tool Calling の導入
 
 フロントエンド統合（React or Vue）
 
-👤 作者情報
+・作者情報
 項目	内容
 名前	仲村莉穏（Rion）
 GitHub	Umintyu-Okinawa
 技術分野	Java / Spring Boot / AI連携 / データ処理 / Web開発
-
-🪪 ライセンス
-本プロジェクトは MIT License に基づき公開されています。
 
 🌐 公開URL（任意）
 https://rion-ai-chat.onrender.com
