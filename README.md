@@ -78,7 +78,7 @@ OpenAI GPT API と Spring Boot を組み合わせて構築したチャットア�
 | `Dockerfile` / `pom.xml` | コンテナ構成・依存管理 |
 
 <details>
-<summary>ディレクトリツリー（必要な人向け）</summary>
+<summary>ディレクトリツリー</summary>
 
 ```text
 rion-ai-chat/
@@ -98,3 +98,23 @@ rion-ai-chat/
 ├─ Dockerfile
 ├─ pom.xml
 └─ README.md
+```
+</details>
+
+## 作者情報
+
+名前	仲村莉穏
+
+GitHub	https://github.com/Umintyu-Okinawa
+
+学習分野	Java / Spring Boot / WebSocket / AI Integration / Docker
+
+---
+## 公開URL
+
+https://rion-ai-chat.onrender.com
+
+---
+
+
+
