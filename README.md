@@ -1,67 +1,106 @@
-# Spring BootとOpenAIを使ったチャットアプリケーション
+# 🧩 Spring BootとMyBatisを使ったバッチETLアプリケーション
 
-JavaのフレームワークであるSpring Bootを利用して構築された、AIチャットアプリケーションです。
-ユーザーからのメッセージに対し、OpenAIのGPTモデルが自動で返信を生成します。
+Javaのフレームワークである **Spring Boot** を利用して構築された、  
+**CSV ⇄ DB（MariaDB）間のデータ連携（ETL）処理** を行うバッチアプリケーションです。  
+Spring BatchとMyBatisを組み合わせ、実務レベルのデータ処理とログ管理を実装しました。
 
-## ファイル構成と解説
+---
+
+## 📦 ファイル構成と解説
 
 このプロジェクトの主要なファイルとディレクトリの役割は以下の通りです。
 
 ### 1. プロジェクトルート
 
-- `pom.xml`
-  - Mavenプロジェクトの重要な設定ファイルです。プロジェクトの依存関係や、ビルド設定が定義されています。
-  - **主な依存関係**: Spring Boot Web, WebSocket, JPA (データベース), Security, OpenAI, MySQL Driver.
-  - Javaのバージョンは `17` に設定されています。
+- `pom.xml`  
+  - Mavenプロジェクトの設定ファイル。依存関係やビルド設定を管理しています。  
+  - **主な依存関係**: Spring Boot Batch, MyBatis, MariaDB Driver, JUnit5, Lombok  
+  - Javaのバージョンは `21` に設定。
 
-- `Dockerfile`
-  - このアプリケーションをDockerコンテナとしてビルドするための手順書です。これにより、どのような環境でも簡単にデプロイできます。
+- `Dockerfile`  
+  - 本アプリケーションをDockerコンテナ化して実行するための設定。  
+    MariaDBとの連携を容易にし、どの環境でも再現性の高い実行を実現。
 
-- `mvnw`, `mvnw.cmd`
-  - MavenWrapper。ローカル環境にMavenをインストールしていなくても、プロジェクトのビルドや実行を可能にします。
+- `docker-compose.yml`  
+  - MariaDBとアプリケーションをまとめて起動する設定。  
+    `docker compose up -d` で簡単に検証環境を構築できます。
 
-- `src/`
-  - すべてのソースコードが格納されているメインディレクトリです。
+- `mvnw`, `mvnw.cmd`  
+  - Maven Wrapper。ローカルにMavenがなくてもビルド/実行可能。
+
+- `src/`  
+  - すべてのソースコード、設定、リソースファイルを格納するメインディレクトリ。
+
+---
 
 ### 2. `src/main/` - アプリケーション本体
 
-- `java/com/rion/chat/`
-  - アプリケーションの動作を定義するJavaソースコードが配置されています。
-    - `ChatApplication.java`: Spring Bootアプリケーションを起動するエントリーポイント。
-    - `WebSocketConfig.java`: リアルタイム通信を実現するWebSocketの設定。
-    - `ChatController.java`: HTTPリクエストとWebSocketメッセージを処理するコントローラー。
-    - `AiReplyService.java`, `GptReplyService.java`: OpenAIのAPIと通信し、AIからの返信を取得するサービス。
-    - `ChatMessageEntity.java`: データベースに保存されるチャットメッセージの構造を定義するエンティティ。
-    - `ChatMessageRepository.java`: データベース操作を行うためのJPAリポジトリ。
+- `java/com/example/batch/`  
+  - アプリケーションロジックを構成する主要パッケージです。
 
-- `resources/`
-  - 設定ファイルや静的リソースが配置されています。
-    - `application.properties`: アプリケーションのグローバル設定ファイル。
-      - `openai.api.key`: OpenAIのAPIキー（環境変数から読み込み）。
-      - `openai.model`: 使用するGPTモデル（例: `gpt-4o-mini`）。
-      - `server.port`: アプリケーションが動作するポート（`8081`）。
-    - `application-dev.properties`: 開発環境用の設定。
-    - `application-prod.properties`: 本番環境用の設定。
+    | ファイル | 役割 |
+    |:--|:--|
+    | `JavaBatchEtlApplication.java` | Spring Bootの起動クラス（エントリーポイント） |
+    | `config/BatchConfig.java` | Job/Step/ItemReader/Writerの定義 |
+    | `domain/Customer.java` | CSV/DBで扱うデータ構造（エンティティ） |
+    | `mapper/CustomerMapper.java` | MyBatisのMapperインターフェース |
+    | `repository/BatchJobLogRepository.java` | ジョブログの永続化処理 |
+    | `listener/JobCompletionListener.java` | Job/Stepの実行結果をログに集計 |
+    | `service/BatchSchedulingService.java` | 定期実行を行うスケジューラクラス |
+
+- `resources/`  
+  設定ファイルやSQL/CSVを格納。
+
+  | ファイル | 役割 |
+  |:--|:--|
+  | `application.yml` | 環境設定（DB接続・スケジューラ設定） |
+  | `application-test.yml` | テスト環境用設定 |
+  | `mapper/CustomerMapper.xml` | MyBatisのSQL定義ファイル |
+  | `input/customers.csv` | サンプル入力CSVデータ |
+
+---
 
 ### 3. `src/test/` - テストコード
 
-- `java/com/rion/chat/`
-  - アプリケーションの品質を保証するためのテストコードが配置されています。
-    - `ChatApplicationTests.java`: アプリケーションが正常に起動するかどうかを確認する基本的なテスト。
+- `java/com/example/batch/`
+  - テスト用クラスを配置。JUnitを使用して動作確認を行います。
 
-## 起動方法
+  | ファイル | 内容 |
+  |:--|:--|
+  | `CsvToDbJobTest.java` | CSV→DBジョブのStep件数アサート |
+  | `DbToCsvJobTest.java` | DB→CSVジョブの出力確認テスト |
 
-1. **前提条件**:
-   - JDK 17
-   - OpenAI APIキー
+---
 
+## ⚙️ 主な機能
 
-2. **ビルドと実行**:
-   プロジェクトのルートディレクトリで以下のコマンドを実行します。
-   ```bash
-   ./mvnw spring-boot:run
-   ```
+| 機能 | 内容 |
+|:--|:--|
+| ✅ CSV→DB取り込み | FlatFileItemReader + MyBatisWriterで一括登録 |
+| ✅ DB→CSV出力 | 条件抽出結果をCSVファイルとして出力 |
+| ✅ バリデーション | 必須列・型チェック（不正データはskip） |
+| ✅ Job実行ログ | read/write/skip件数をDBに記録 |
+| ✅ スケジュール実行 | cron設定により定期実行（ON/OFF切替可能） |
+| ✅ Docker再現性 | MariaDB + アプリをDocker Composeで起動 |
+| ✅ JUnitテスト | Step件数・出力ファイル確認の自動テスト |
 
-3. **アクセス**:
-   WebブラウザまたはAPIクライアントで `http://localhost:8081` にアクセスします。
-   （開発用の認証情報は `application.properties` に記載されています: `admin`/`admin123`）
+---
+
+## 🧩 起動方法
+
+### 1. ローカル環境での実行
+
+```bash
+# 1) DB起動（XAMPP or Dockerなど）
+# 2) ビルド
+./mvnw clean package -DskipTests
+
+# 3) CSV→DBジョブの実行
+java -jar target/java-batch-etl-0.0.1-SNAPSHOT.jar \
+  --spring.profiles.active=test \
+  --spring.batch.job.name=csvToDbJob
+
+# 4) DB→CSVジョブの実行
+java -jar target/java-batch-etl-0.0.1-SNAPSHOT.jar \
+  --spring.profiles.active=test \
+  --spring.batch.job.name=dbToCsvJob
