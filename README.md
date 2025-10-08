@@ -1,4 +1,4 @@
-# 🧩 Spring BootとMyBatisを使ったバッチETLアプリケーション
+#  Spring BootとMyBatisを使ったバッチETLアプリケーション
 
 Javaのフレームワークである **Spring Boot** を利用して構築された、  
 **CSV ⇄ DB（MariaDB）間のデータ連携（ETL）処理** を行うバッチアプリケーションです。  
@@ -6,7 +6,7 @@ Spring BatchとMyBatisを組み合わせ、実務レベルのデータ処理と�
 
 ---
 
-## 📦 ファイル構成と解説
+## ファイル構成と解説
 
 このプロジェクトの主要なファイルとディレクトリの役割は以下の通りです。
 
@@ -76,17 +76,17 @@ Spring BatchとMyBatisを組み合わせ、実務レベルのデータ処理と�
 
 | 機能 | 内容 |
 |:--|:--|
-| ✅ CSV→DB取り込み | FlatFileItemReader + MyBatisWriterで一括登録 |
-| ✅ DB→CSV出力 | 条件抽出結果をCSVファイルとして出力 |
-| ✅ バリデーション | 必須列・型チェック（不正データはskip） |
-| ✅ Job実行ログ | read/write/skip件数をDBに記録 |
-| ✅ スケジュール実行 | cron設定により定期実行（ON/OFF切替可能） |
-| ✅ Docker再現性 | MariaDB + アプリをDocker Composeで起動 |
-| ✅ JUnitテスト | Step件数・出力ファイル確認の自動テスト |
+| CSV→DB取り込み | FlatFileItemReader + MyBatisWriterで一括登録 |
+| DB→CSV出力 | 条件抽出結果をCSVファイルとして出力 |
+| バリデーション | 必須列・型チェック（不正データはskip） |
+| Job実行ログ | read/write/skip件数をDBに記録 |
+| スケジュール実行 | cron設定により定期実行（ON/OFF切替可能） |
+| Docker再現性 | MariaDB + アプリをDocker Composeで起動 |
+| JUnitテスト | Step件数・出力ファイル確認の自動テスト |
 
 ---
 
-## 🧩 起動方法
+## 起動方法
 
 ### 1. ローカル環境での実行
 
