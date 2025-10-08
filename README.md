@@ -52,7 +52,6 @@ rion-ai-chat/
 ├─ Dockerfile # Docker構成
 ├─ pom.xml # 依存関係・ビルド設定
 └─ README.md # 本ドキュメント
----
 
 ## 環境構築手順
 
