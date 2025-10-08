@@ -1,25 +1,25 @@
 # Rion AI Chat（Spring Boot × OpenAI × WebSocket）
 
-Java フレームワーク **Spring Boot** を使用し構築した、  
+Java フレームワーク Spring Boot を使用して構築した、  
 リアルタイムで OpenAI API と連携するチャットアプリケーションです。  
-WebSocket（STOMP）を使用して双方向通信を実現し、会話データをストリームで受信できます。
+WebSocket（STOMP）による双方向通信を実現し、AIとの自然な対話を可能にします。
 
 ---
 
-## 🎯 プロジェクト概要
+## プロジェクト概要
 
 | 項目 | 内容 |
 |:--|:--|
-| 目的 | Spring Boot と OpenAI API の連携、および WebSocket によるリアルタイム通信の実装 |
+| 目的 | Spring Boot と OpenAI API の連携、WebSocket によるリアルタイム通信の実装 |
 | 機能 | ChatGPT連携、ストリーミング応答、セッション管理、Dockerデプロイ対応 |
 | 技術構成 | Java 21 / Spring Boot 3.5 / WebSocket / Maven / OpenAI API |
 | 開発環境 | IntelliJ IDEA / VS Code / Render（デプロイ） |
-| データ保存 | セッション管理（In-Memory or DB拡張可） |
+| データ保存 | セッション管理（In-Memory または DB拡張可） |
 | 実行形式 | jar実行 / Docker コンテナ対応 |
 
 ---
 
-## 🧱 技術スタック
+## 技術スタック
 
 | カテゴリ | 使用技術 |
 |:--|:--|
@@ -33,7 +33,7 @@ WebSocket（STOMP）を使用して双方向通信を実現し、会話データ
 
 ---
 
-## 📂 ディレクトリ構成
+## ディレクトリ構成
 
 rion-ai-chat/
 ├─ src/
@@ -58,24 +58,23 @@ yaml
 
 ---
 
-## ⚙️ 環境構築手順
+## 環境構築手順
 
-### 1️⃣ 前提条件
+### 1. 前提条件
 
-- **Java 21**
-- **Maven 3.9+**
-- **OpenAI APIキー**
-  - 取得先：[https://platform.openai.com/](https://platform.openai.com/)
+- Java 21  
+- Maven 3.9 以上  
+- OpenAI APIキー（取得先：[https://platform.openai.com/](https://platform.openai.com/)）
 
 ---
 
-### 2️⃣ 環境変数の設定（`.env`）
+### 2. 環境変数の設定（`.env`）
 
 ```bash
 OPENAI_API_KEY=sk-xxxxxxxxxxxxxxxx
 OPENAI_MODEL=gpt-4o
 SERVER_PORT=8080
-3️⃣ application.yml（設定例）
+3. application.yml（設定例）
 yaml
 コードをコピーする
 server:
@@ -86,8 +85,8 @@ app:
     apiKey: ${OPENAI_API_KEY}
     model: ${OPENAI_MODEL:gpt-4o}
     baseUrl: https://api.openai.com/v1
-4️⃣ 実行方法
-🔹 ローカル実行
+4. 実行方法
+ローカル実行
 bash
 コードをコピーする
 # 依存関係の取得とビルド
@@ -95,7 +94,7 @@ mvn clean package -DskipTests
 
 # 起動
 java -jar target/rion-ai-chat-0.0.1-SNAPSHOT.jar
-🔹 Docker 実行
+Docker 実行
 bash
 コードをコピーする
 # ビルド
@@ -103,7 +102,7 @@ docker build -t rion-ai-chat .
 
 # 実行
 docker run -p 8080:8080 --env-file .env rion-ai-chat
-💬 WebSocket 通信例
+WebSocket 通信例
 接続エンドポイント
 項目	値
 WebSocketエンドポイント	/ws-chat
@@ -126,25 +125,25 @@ stomp.connect({}, () => {
   // メッセージ送信
   stomp.send('/app/chat', {}, JSON.stringify({ content: 'こんにちは！' }));
 });
-🧠 実装のポイント
+実装のポイント
 項目	説明
-WebSocket通信	STOMPを使用してサーバー→クライアント間でリアルタイム更新
-OpenAI連携	RestTemplate / WebClient 経由でリクエスト送信
-ストリーミング	部分的な応答を順次受信し、UIへリアルタイム出力
+WebSocket通信	STOMPでサーバー→クライアント間のリアルタイム通信を実現
+OpenAI連携	RestTemplate または WebClient を使用してAPI呼び出し
+ストリーミング	応答を部分的に受信してUIにリアルタイム反映
 例外処理	APIエラー・ネットワーク障害時の再試行処理
 セキュリティ	.env によるAPIキー管理、CORS制御、HTTPS前提設計
-ログ管理	Logback による送受信ログ・リクエスト監視
-拡張性	会話履歴をDB化、認証導入、RAG検索統合も容易
+ログ管理	Logback による通信ログとエラートラッキング
+拡張性	会話履歴DB化、認証導入、RAG検索などに対応可能
 
-🧪 テスト
+テスト
 bash
 コードをコピーする
 mvn test
-OpenAI 呼び出しを Mock 化し、応答フォーマットを検証
+OpenAI呼び出しをMock化し、応答フォーマットを検証
 
-WebSocket 接続の統合テスト（@SpringBootTest(webEnvironment = RANDOM_PORT)）
+WebSocket接続の統合テスト（@SpringBootTest(webEnvironment = RANDOM_PORT)）
 
-🚀 デプロイ手順（Render例）
+デプロイ手順（Render例）
 GitHubリポジトリをRenderに接続
 
 “New Web Service” → Environment: Docker
@@ -159,14 +158,14 @@ SERVER_PORT=10000
 自動デプロイ後、
 https://rion-ai-chat.onrender.com にアクセス
 
-⚠️ よくあるエラーと解決法
+よくあるエラーと解決法
 エラー内容	原因と対処
 401 Unauthorized	APIキーが無効または未設定。.envを確認。
-CORS Policy Error	CorsRegistry の設定で allowedOrigins("*") を許可。
-WebSocket接続失敗	/ws-chat エンドポイントまたはポートの不一致。
-TimeoutException	OpenAIレスポンス遅延。WebClient の timeout 設定を延長。
+CORS Policy Error	CorsRegistryの設定でallowedOrigins("*")を許可。
+WebSocket接続失敗	/ws-chat のエンドポイントまたはポート設定を確認。
+TimeoutException	OpenAI応答が遅延。WebClientのtimeout設定を延長。
 
-📈 今後の拡張予定
+今後の拡張予定
 Chat履歴をDBに保存（User別セッション管理）
 
 Spring Securityによるユーザー認証
@@ -175,13 +174,13 @@ RAG構成（ファイルアップロード＋ベクトル検索）
 
 Function Calling / Tool Calling の導入
 
-フロントエンド統合（React or Vue）
+フロントエンド統合（React または Vue）
 
-👤 作者情報
+作者情報
 項目	内容
 名前	仲村莉穏（Rion）
 GitHub	Umintyu-Okinawa
 技術分野	Java / Spring Boot / AI連携 / データ処理 / Web開発
 
-🌐 公開URL（任意）
+公開URL（任意）
 https://rion-ai-chat.onrender.com
