@@ -1,15 +1,15 @@
 <div id="top"></div>
 
-# Rion AI Chat（Spring Boot × OpenAI × WebSocket）
+# Rion AI Chat (Spring Boot × OpenAI × WebSocket)
 
 OpenAI GPT API と Spring Boot を組み合わせて構築したチャットアプリケーションです。  
-WebSocket（STOMP）を利用してリアルタイムな双方向通信を実現し、Docker / Render によるデプロイも対応しています。
+WebSocket (STOMP) によるリアルタイム双方向通信に対応し、Docker / Render でのデプロイも可能です。
 
 ---
 
 ## 使用技術一覧
 
-<p style="display: inline">
+<p style="display:inline">
   <img src="https://img.shields.io/badge/-Java-007396.svg?logo=java&style=for-the-badge">
   <img src="https://img.shields.io/badge/-Spring%20Boot-6DB33F.svg?logo=springboot&style=for-the-badge">
   <img src="https://img.shields.io/badge/-WebSocket-20232A.svg?style=for-the-badge&logo=websocket&logoColor=white">
@@ -31,6 +31,7 @@ WebSocket（STOMP）を利用してリアルタイムな双方向通信を実現
 6. [コマンド一覧](#コマンド一覧)
 7. [トラブルシューティング](#トラブルシューティング)
 8. [作者情報](#作者情報)
+9. [公開URL](#公開url)
 
 ---
 
@@ -39,8 +40,8 @@ WebSocket（STOMP）を利用してリアルタイムな双方向通信を実現
 | 項目 | 内容 |
 |:--|:--|
 | 名称 | Rion AI Chat |
-| 概要 | Spring Boot × OpenAI × WebSocket を利用したリアルタイムAIチャットアプリ |
-| 目的 | AI API の利用経験を積み、リアルタイム通信・Dockerデプロイまでの流れを学習 |
+| 概要 | Spring Boot × OpenAI × WebSocket を利用したリアルタイム AI チャットアプリ |
+| 目的 | AI API 利用、リアルタイム通信、Docker デプロイまでの一連の実装学習 |
 | デプロイ先 | Render |
 | 対応環境 | Java 21 / Maven 3.9+ |
 | 公開URL | [https://rion-ai-chat.onrender.com](https://rion-ai-chat.onrender.com) |
@@ -55,7 +56,7 @@ WebSocket（STOMP）を利用してリアルタイムな双方向通信を実現
 |:--|:--|
 | 言語 | Java 21 |
 | フレームワーク | Spring Boot 3.5.6 |
-| 通信 | WebSocket（STOMP） |
+| 通信 | WebSocket (STOMP) |
 | ビルドツール | Maven |
 | API | OpenAI GPT API |
 | デプロイ | Render / Docker |
@@ -67,27 +68,24 @@ WebSocket（STOMP）を利用してリアルタイムな双方向通信を実現
 ---
 
 ## ディレクトリ構成
-
 rion-ai-chat/
 ├── src/
 │ ├── main/
 │ │ ├── java/com/example/chat/
 │ │ │ ├── controller/ # WebSocket・REST コントローラ
-│ │ │ ├── service/ # OpenAI API 呼び出し・ロジック
-│ │ │ ├── config/ # WebSocket・CORS設定
+│ │ │ ├── service/ # OpenAI API 呼び出し・業務ロジック
+│ │ │ ├── config/ # WebSocket・CORS 設定
 │ │ │ ├── model/ # DTO / メッセージモデル
 │ │ │ └── RionAiChatApplication.java # メインクラス
 │ │ └── resources/
 │ │ ├── application.yml # 環境変数参照
-│ │ └── templates/ # Thymeleafテンプレート
-│ └── test/ # JUnitテスト
+│ │ └── templates/ # Thymeleaf テンプレート（UI 使用時）
+│ └── test/ # JUnit テスト
 ├── .env.example # 環境変数サンプル
-├── Dockerfile # Docker構成
-├── pom.xml # 依存関係・ビルド設定
-└── README.md # 本書
+├── Dockerfile
+├── pom.xml
+└── README.md
 
-yaml
-コードをコピーする
 
 <p align="right">(<a href="#top">トップへ</a>)</p>
 
@@ -99,7 +97,7 @@ yaml
 
 - Java 21  
 - Maven 3.9 以上  
-- OpenAI APIキー（[https://platform.openai.com/](https://platform.openai.com/) より取得）
+- OpenAI API キー（取得: <https://platform.openai.com/>）
 
 ### 2. `.env` の作成
 
@@ -118,7 +116,7 @@ app:
     apiKey: ${OPENAI_API_KEY}
     model: ${OPENAI_MODEL:gpt-4o}
     baseUrl: https://api.openai.com/v1
-4. 実行
+4. 実行（ローカル）
 bash
 コードをコピーする
 # ビルド
@@ -137,9 +135,9 @@ docker run -p 8080:8080 --env-file .env rion-ai-chat
 <p align="right">(<a href="#top">トップへ</a>)</p>
 環境変数一覧
 変数名	説明	デフォルト値	備考
-OPENAI_API_KEY	OpenAI API キー	-	.envで管理
-OPENAI_MODEL	使用モデル名	gpt-4o	任意変更可
-SERVER_PORT	サーバーポート番号	8080	Render環境では自動割り当て
+OPENAI_API_KEY	OpenAI API キー	なし	.env で管理
+OPENAI_MODEL	使用モデル名	gpt-4o	任意に変更可
+SERVER_PORT	サーバポート番号	8080	Render 環境では自動割当あり
 
 <p align="right">(<a href="#top">トップへ</a>)</p>
 コマンド一覧
@@ -153,30 +151,26 @@ mvn test	JUnit テスト実行
 <p align="right">(<a href="#top">トップへ</a>)</p>
 トラブルシューティング
 .env: no such file or directory
-.env ファイルが存在しません。
-上記 環境変数一覧 を参照して作成してください。
+.env が存在しません。上記の 環境変数一覧 を参照して作成してください。
 
 401 Unauthorized
-OpenAI API キーが無効です。
-.env に正しいキーを設定してください。
+OpenAI API キーが無効または未設定です。.env の値を確認してください。
 
 CORS Policy Error
-CorsRegistry の設定で allowedOrigins("*") を許可してください。
+CorsRegistry の設定で allowedOrigins("*") を許可するか、本番ドメインのみ許可するよう調整してください。
 
 TimeoutException
-OpenAIのレスポンス遅延。
-WebClient の timeout 設定を延長してください。
+OpenAI 応答が遅延しています。WebClient の timeout を延長、もしくはプロンプトやモデルを調整してください。
 
 Ports are not available: address already in use
-別プロセスがポートを使用中です。
-使用ポートを変更または停止してください。
+別のプロセスがポートを使用中です。使用ポートの変更または該当プロセスの停止を行ってください。
 
 <p align="right">(<a href="#top">トップへ</a>)</p>
 作者情報
 項目	内容
 名前	仲村莉穏（Rion）
 GitHub	Umintyu-Okinawa
-技術分野	Java / Spring Boot / WebSocket / AI連携 / Docker
+技術分野	Java / Spring Boot / WebSocket / AI 連携 / Docker
 
 公開URL
 https://rion-ai-chat.onrender.com
