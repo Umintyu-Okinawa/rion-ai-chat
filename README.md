@@ -3,7 +3,7 @@
 # Rion AI Chat (Spring Boot × OpenAI × WebSocket)
 
 OpenAI GPT API と Spring Boot を組み合わせて構築したチャットアプリケーションです。
-**WebSocket (STOMP)** によるリアルタイム双方向通信に対応し、**Docker / Render** でのデプロイも可能です。
+**WebSocket (STOMP)** によるリアルタイム双方向通信に対応し、**Render** でのデプロイも済みです。
 
 
 
