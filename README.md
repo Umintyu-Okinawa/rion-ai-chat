@@ -25,7 +25,7 @@ WebSocket (STOMP) によるリアルタイム双方向通信に対応し、Docke
 
 1. [プロジェクトについて](#プロジェクトについて)
 2. [環境](#環境)
-3. [ディレクトリ構成](#ディレクトリ構成)
+3. [主要ディレクトリ](#主要ディレクトリ)
 4. [開発環境構築](#開発環境構築)
 5. [環境変数一覧](#環境変数一覧)
 6. [コマンド一覧](#コマンド一覧)
@@ -44,9 +44,7 @@ WebSocket (STOMP) によるリアルタイム双方向通信に対応し、Docke
 | 目的 | AI API 利用、リアルタイム通信、Docker デプロイまでの一連の実装学習 |
 | デプロイ先 | Render |
 | 対応環境 | Java 21 / Maven 3.9+ |
-| 公開URL | [https://rion-ai-chat.onrender.com](https://rion-ai-chat.onrender.com) |
-
-<p align="right">(<a href="#top">トップへ</a>)</p>
+| 公開URL | https://rion-ai-chat.onrender.com |
 
 ---
 
@@ -63,31 +61,22 @@ WebSocket (STOMP) によるリアルタイム双方向通信に対応し、Docke
 | テスト | JUnit |
 | ログ管理 | Logback |
 
-<p align="right">(<a href="#top">トップへ</a>)</p>
-
 ---
 
-## ディレクトリ構成
-rion-ai-chat/
-├── src/
-│ ├── main/
-│ │ ├── java/com/example/chat/
-│ │ │ ├── controller/ # WebSocket・REST コントローラ
-│ │ │ ├── service/ # OpenAI API 呼び出し・業務ロジック
-│ │ │ ├── config/ # WebSocket・CORS 設定
-│ │ │ ├── model/ # DTO / メッセージモデル
-│ │ │ └── RionAiChatApplication.java # メインクラス
-│ │ └── resources/
-│ │ ├── application.yml # 環境変数参照
-│ │ └── templates/ # Thymeleaf テンプレート（UI 使用時）
-│ └── test/ # JUnit テスト
-├── .env.example # 環境変数サンプル
-├── Dockerfile
-├── pom.xml
-└── README.md
+## 主要ディレクトリ
 
-
-<p align="right">(<a href="#top">トップへ</a>)</p>
+| パス | 役割 |
+|:--|:--|
+| `src/main/java/com/example/chat/controller/` | WebSocket・REST コントローラ |
+| `src/main/java/com/example/chat/service/` | OpenAI API 呼び出し・業務ロジック |
+| `src/main/java/com/example/chat/config/` | WebSocket・CORS 設定 |
+| `src/main/java/com/example/chat/model/` | DTO / メッセージモデル |
+| `src/main/java/com/example/chat/RionAiChatApplication.java` | メインクラス |
+| `src/main/resources/application.yml` | 設定ファイル（環境変数参照） |
+| `src/main/resources/templates/` | Thymeleaf テンプレート（UI使用時） |
+| `src/test/` | JUnit テスト |
+| `.env.example` | 環境変数サンプル |
+| `Dockerfile` / `pom.xml` | コンテナ構成・依存関係管理 |
 
 ---
 
@@ -97,7 +86,7 @@ rion-ai-chat/
 
 - Java 21  
 - Maven 3.9 以上  
-- OpenAI API キー（取得: <https://platform.openai.com/>）
+- OpenAI API キー（取得先: https://platform.openai.com/）
 
 ### 2. `.env` の作成
 
@@ -105,7 +94,7 @@ rion-ai-chat/
 OPENAI_API_KEY=sk-xxxxxxxxxxxxxxxx
 OPENAI_MODEL=gpt-4o
 SERVER_PORT=8080
-3. application.yml（設定例）
+3. application.yml 設定例
 yaml
 コードをコピーする
 server:
@@ -119,60 +108,48 @@ app:
 4. 実行（ローカル）
 bash
 コードをコピーする
-# ビルド
 mvn clean package -DskipTests
-
-# 起動
 java -jar target/rion-ai-chat-0.0.1-SNAPSHOT.jar
 5. Docker 実行
 bash
 コードをコピーする
-# ビルド
 docker build -t rion-ai-chat .
-
-# 実行
 docker run -p 8080:8080 --env-file .env rion-ai-chat
-<p align="right">(<a href="#top">トップへ</a>)</p>
 環境変数一覧
 変数名	説明	デフォルト値	備考
 OPENAI_API_KEY	OpenAI API キー	なし	.env で管理
-OPENAI_MODEL	使用モデル名	gpt-4o	任意に変更可
-SERVER_PORT	サーバポート番号	8080	Render 環境では自動割当あり
+OPENAI_MODEL	使用モデル名	gpt-4o	任意に変更可能
+SERVER_PORT	サーバーポート番号	8080	Render 環境では自動割り当てあり
 
-<p align="right">(<a href="#top">トップへ</a>)</p>
 コマンド一覧
-コマンド	処理内容
+コマンド	説明
 mvn clean package -DskipTests	ビルド（テスト除外）
 java -jar target/rion-ai-chat-0.0.1-SNAPSHOT.jar	アプリ起動
-docker build -t rion-ai-chat .	Docker イメージのビルド
-docker run -p 8080:8080 --env-file .env rion-ai-chat	Docker コンテナ起動
+docker build -t rion-ai-chat .	Docker イメージビルド
+docker run -p 8080:8080 --env-file .env rion-ai-chat	コンテナ起動
 mvn test	JUnit テスト実行
 
-<p align="right">(<a href="#top">トップへ</a>)</p>
 トラブルシューティング
 .env: no such file or directory
-.env が存在しません。上記の 環境変数一覧 を参照して作成してください。
+.env ファイルが存在しません。上記の「環境変数一覧」を参考に作成してください。
 
 401 Unauthorized
 OpenAI API キーが無効または未設定です。.env の値を確認してください。
 
 CORS Policy Error
-CorsRegistry の設定で allowedOrigins("*") を許可するか、本番ドメインのみ許可するよう調整してください。
+CorsRegistry の allowedOrigins("*") を設定してください（開発環境では *、本番は限定ドメイン推奨）。
 
 TimeoutException
-OpenAI 応答が遅延しています。WebClient の timeout を延長、もしくはプロンプトやモデルを調整してください。
+OpenAI のレスポンスが遅延しています。WebClient の timeout を延長、またはプロンプト・モデルを調整してください。
 
 Ports are not available: address already in use
-別のプロセスがポートを使用中です。使用ポートの変更または該当プロセスの停止を行ってください。
+他のプロセスがポートを使用中です。使用ポートを変更するか、該当プロセスを停止してください。
 
-<p align="right">(<a href="#top">トップへ</a>)</p>
 作者情報
 項目	内容
 名前	仲村莉穏（Rion）
 GitHub	Umintyu-Okinawa
-技術分野	Java / Spring Boot / WebSocket / AI 連携 / Docker
+技術分野	Java / Spring Boot / WebSocket / AI Integration / Docker
 
 公開URL
 https://rion-ai-chat.onrender.com
-
-<p align="right">(<a href="#top">トップへ</a>)</p> ```
