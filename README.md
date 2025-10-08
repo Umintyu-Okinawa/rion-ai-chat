@@ -34,7 +34,6 @@ WebSocket（STOMP）を使用して双方向通信を実現し、会話データ
 ---
 
 ## 📂 ディレクトリ構成
-
 rion-ai-chat/
 ├─ src/
 │ ├─ main/
