@@ -26,7 +26,7 @@ OpenAI GPT API と Spring Boot を組み合わせて構築したチャットア�
 2. [環境](#環境)
 3. [主要ディレクトリ](#主要ディレクトリ)
 4. [作者情報](#作者情報)
-5. [公開URL](#公開url)サインイン/ユーザー名:admin/password= admin123
+5. [公開URL](#公開url)
 
 ---
 
@@ -39,7 +39,7 @@ OpenAI GPT API と Spring Boot を組み合わせて構築したチャットア�
 | 目的 | AI API 利用、リアルタイム通信、Docker デプロイまでの一連の実装学習 |
 | デプロイ先 | Render |
 | 対応環境 | Java 21 / Maven 3.9+ |
-| 公開URL | https://rion-ai-chat.onrender.com |
+| 公開URL | https://rion-ai-chat.onrender.com  サインイン：ユーザー名= admin / password = admin123 | 
 
 ---
 
